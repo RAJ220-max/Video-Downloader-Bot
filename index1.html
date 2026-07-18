@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <!-- Adsgram SDK -->
+    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+    <script>
+        const adBlockId = "38667"; 
+        const AdController = window.Adsgram.init({ blockId: adBlockId });
+
+        // Jaise hi page load hoga, ad dikhane ki koshish karega
+        window.onload = () => {
+            AdController.show()
+                .then((result) => {
+                    // Ad khatam hone par app band ho jayega
+                    window.Telegram.WebApp.close(); 
+                })
+                .catch((result) => {
+                    // Agar ad error deti hai ya load nahi hoti, 
+                    // toh user ko wapas bhej do ya handle karo
+                    console.log("Ad error:", result);
+                    window.Telegram.WebApp.close(); 
+                });
+        };
+    </script>
+</body>
+</html>
