@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Downloader Pro</title>
+    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Adsgram SDK -->
     <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
     <style>
         body { 
@@ -52,16 +54,17 @@
             width: 100%; 
             transition: all 0.3s ease;
         }
-        #adBtn:active { transform: scale(0.95); }
+        #adBtn:disabled { background: #444; color: #888; cursor: not-allowed; }
+        #adBtn:active:not(:disabled) { transform: scale(0.95); }
         .loading-text { margin-top: 15px; font-size: 12px; color: #555; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <!-- Yahan apna logo ka link daal dena -->
+        <!-- Logo: Yahan image ka link daal dena -->
         <div class="logo-box">
-            <img src="https://raj220-max.github.io/Social-logo/" alt="Logo">
+            <img src="https://i.ibb.co/your-logo-here.png" alt="Logo">
         </div>
         
         <h2>Verification Required</h2>
@@ -72,20 +75,33 @@
     </div>
 
     <script>
-        const AdController = window.Adsgram.init({ blockId: "38870" });
+        const adPromise = window.Adsgram.init({ blockId: "38870" });
         const btn = document.getElementById("adBtn");
         const status = document.getElementById("status");
 
-        btn.onclick = () => {
-            status.innerText = "Loading ad...";
-            AdController.show()
-                .then((result) => {
-                    window.Telegram.WebApp.close();
-                })
-                .catch((result) => {
-                    status.innerText = "Ad error, please try again.";
-                });
-        };
+        // Start mein button ko disable rakho
+        btn.disabled = true;
+        status.innerText = "Please wait, loading ad...";
+
+        // Ad load hone ka intezar karo
+        adPromise.then((AdController) => {
+            status.innerText = "Ad ready!";
+            btn.disabled = false;
+
+            btn.onclick = () => {
+                status.innerText = "Opening ad...";
+                AdController.show()
+                    .then((result) => {
+                        // Success par Mini App close ho jayega
+                        window.Telegram.WebApp.close();
+                    })
+                    .catch((result) => {
+                        status.innerText = "Ad failed, please try again.";
+                    });
+            };
+        }).catch((err) => {
+            status.innerText = "Adsgram error, check your connection.";
+        });
     </script>
 </body>
 </html>
