@@ -9,10 +9,8 @@
     <style>
         body { font-family: sans-serif; background: #121212; color: #fff; text-align: center; padding: 20px; }
         .container { background: #1e1e1e; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        h2 { color: #0088cc; }
         .logo { font-size: 50px; margin-bottom: 10px; }
-        button { background: #0088cc; border: none; color: white; padding: 15px 40px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #0077b5; transform: scale(1.05); }
+        button { background: #0088cc; border: none; color: white; padding: 15px 40px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -25,16 +23,20 @@
 
     <script>
         const adBlockId = "38870";
+        // Adsgram initialize karein
         const AdController = window.Adsgram.init({ blockId: adBlockId });
 
         document.getElementById("adBtn").onclick = () => {
+            // Ad show karne ka command
             AdController.show()
                 .then((result) => {
-                    // Ad puri dekhi, ab bot ko signal bhejo ya redirect karo
-                    window.Telegram.WebApp.close(); 
+                    // Success: Ad dekhi gayi
+                    window.Telegram.WebApp.close();
                 })
                 .catch((result) => {
-                    alert("Please watch the full ad to proceed.");
+                    // Agar koi error aaye toh console mein check karo
+                    console.log("Ad error:", result);
+                    alert("Ad load nahi ho paayi, please wait karein ya phir se try karein.");
                 });
         };
     </script>
