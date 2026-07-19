@@ -4,39 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Downloader Pro</title>
-    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/adsgram.js"></script>
     <style>
-        body { font-family: sans-serif; background: #121212; color: #fff; text-align: center; padding: 20px; }
-        .container { background: #1e1e1e; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .logo { font-size: 50px; margin-bottom: 10px; }
-        button { background: #0088cc; border: none; color: white; padding: 15px 40px; font-size: 18px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        body { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            background: #0f0f0f; 
+            color: #ffffff; 
+            text-align: center; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .card { 
+            background: #1c1c1c; 
+            border-radius: 25px; 
+            padding: 30px; 
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border: 1px solid #333;
+        }
+        /* Logo Styling */
+        .logo-box img { 
+            width: 90px; 
+            height: 90px; 
+            border-radius: 20px; 
+            margin-bottom: 20px;
+            border: 2px solid #0088cc;
+        }
+        h2 { margin: 0 0 10px 0; color: #ffffff; font-size: 24px; }
+        p { color: #888; margin-bottom: 25px; font-size: 14px; }
+        
+        #adBtn { 
+            background: linear-gradient(135deg, #0088cc, #005f99); 
+            border: none; 
+            color: white; 
+            padding: 18px; 
+            border-radius: 15px; 
+            font-size: 16px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: all 0.3s ease;
+        }
+        #adBtn:active { transform: scale(0.95); }
+        .loading-text { margin-top: 15px; font-size: 12px; color: #555; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">⬇️</div>
-        <h2>Video Downloader Pro</h2>
-        <p>Click the button below to process your request.</p>
-        <button id="adBtn">Start Instant Processing</button>
+
+    <div class="card">
+        <!-- Yahan apna logo ka link daal dena -->
+        <div class="logo-box">
+            <img src="https://raj220-max.github.io/Social-logo/" alt="Logo">
+        </div>
+        
+        <h2>Verification Required</h2>
+        <p>Please watch the short advertisement below to unlock your download link immediately.</p>
+        
+        <button id="adBtn">Watch Ad & Proceed</button>
+        <div class="loading-text" id="status">Preparing ad...</div>
     </div>
 
     <script>
-        const adBlockId = "38853";
-        // Adsgram initialize karein
-        const AdController = window.Adsgram.init({ blockId: adBlockId });
+        const AdController = window.Adsgram.init({ blockId: "38870" });
+        const btn = document.getElementById("adBtn");
+        const status = document.getElementById("status");
 
-        document.getElementById("adBtn").onclick = () => {
-            // Ad show karne ka command
+        btn.onclick = () => {
+            status.innerText = "Loading ad...";
             AdController.show()
                 .then((result) => {
-                    // Success: Ad dekhi gayi
                     window.Telegram.WebApp.close();
                 })
                 .catch((result) => {
-                    // Agar koi error aaye toh console mein check karo
-                    console.log("Ad error:", result);
-                    alert("Ad load nahi ho paayi, please wait karein ya phir se try karein.");
+                    status.innerText = "Ad error, please try again.";
                 });
         };
     </script>
